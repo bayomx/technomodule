@@ -40,13 +40,13 @@ var TechnoIMGResolveData ResolveData
 
 // LogError writes log from function
 func LogError(text string, function string, err error) {
-	log.Printf("%s %s%s%s %s\n", text, api.Prefix, api.Version, function, err)
+	log.Printf("%s %s%s%s %s\n", text, Api.Prefix, Api.Version, function, err)
 }
 
 // GetResolveData function
 func GetResolveData(data FuncData) (result ResolveData) {
 
-	response, err := http.Get(technoIMGResolveData.Host + technoIMGResolveData.Prefix + technoIMGResolveData.Version + hostPrefixVersion + "/" + loginEmp)
+	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + LoginEmp)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting host+prefix+version"))
@@ -89,7 +89,7 @@ func GetToken(request *http.Request) (token string) {
 // ValidateToken function
 func ValidateToken(data FuncData, resolve ResolveData, token string) (result bool) {
 
-	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + checkSessionByToken + "/" + token)
+	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + CheckSessionByToken + "/" + token)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting checkSessionByToken"))
