@@ -29,14 +29,14 @@ type FuncData struct {
 }
 
 // variables
-const envType = "TYPE"
-const envDev = "DEV"
-const hostPrefixVersion = "hostPrefixVersion"
-const loginEmp = "loginEmp"
-const checkSessionByToken = "checkSessionByToken"
+const EnvType = "TYPE"
+const EnvDev = "DEV"
+const HostPrefixVersion = "hostPrefixVersion"
+const LoginEmp = "loginEmp"
+const CheckSessionByToken = "checkSessionByToken"
 
-var api APIData
-var technoIMGResolveData ResolveData
+var Api APIData
+var TechnoIMGResolveData ResolveData
 
 // LogError writes log from function
 func LogError(text string, function string, err error) {
