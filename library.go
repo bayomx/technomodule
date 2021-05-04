@@ -28,12 +28,20 @@ type FuncData struct {
 	Request  *http.Request
 }
 
+// ServiceProfile struct
+type ServiceProfile struct {
+	Profile string
+	Action  string
+}
+
 // variables
 const EnvType = "TYPE"
 const EnvDev = "DEV"
 const HostPrefixVersion = "hostPrefixVersion"
 const LoginEmp = "loginEmp"
 const CheckSessionByToken = "checkSessionByToken"
+const ServiceCheckSessionByToken = "serviceCheckSessionByToken"
+const ServiceValidateAction = "serviceValidateAction"
 
 var Api APIData
 var TechnoIMGResolveData ResolveData
@@ -47,6 +55,33 @@ func LogError(text string, function string, err error) {
 func GetResolveData(data FuncData) (result ResolveData) {
 
 	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + LoginEmp)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error getting host+prefix+version"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot get host+prefix+version'", data.Function, errWriter)
+		}
+		return
+	}
+
+	var decoder = json.NewDecoder(response.Body)
+	err = decoder.Decode(&result)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error decoding host+prefix+version"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot decode host+prefix+version'", data.Function, errWriter)
+		}
+		return
+	}
+
+	return
+}
+
+// GetResolveDataService function
+func GetResolveDataService(data FuncData, service string) (result ResolveData) {
+
+	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + service)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting host+prefix+version"))
@@ -106,6 +141,60 @@ func ValidateToken(data FuncData, resolve ResolveData, token string) (result boo
 		_, errWriter := data.Writer.Write([]byte("Error decoding checkSessionByToken"))
 		if errWriter != nil {
 			LogError("Error writing result 'Cannot decode checkSessionByToken'", data.Function, errWriter)
+		}
+		return
+	}
+
+	return
+}
+
+// ValidateTokenService function
+func ValidateTokenService(data FuncData, resolve ResolveData, mySecret string, token string, profile ServiceProfile) (result bool, err error) {
+
+	// validate token
+	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + ServiceCheckSessionByToken + "/" + mySecret + "/" + token)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error getting checkSessionByToken"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot get checkSessionByToken'", data.Function, errWriter)
+		}
+		return
+	}
+
+	var decoder = json.NewDecoder(validate.Body)
+	err = decoder.Decode(&result)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error decoding checkSessionByToken"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot decode checkSessionByToken'", data.Function, errWriter)
+		}
+		return
+	}
+
+	if !result {
+		return
+	}
+
+	// validate profile
+	validate, err = http.Get(resolve.Host + resolve.Prefix + resolve.Version + ServiceValidateAction + "/" + mySecret + "/" + profile.Profile + "/" + profile.Action)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error getting serviceValidateAction"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot get serviceValidateAction'", data.Function, errWriter)
+		}
+		return
+	}
+
+	decoder = json.NewDecoder(validate.Body)
+	err = decoder.Decode(&result)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error decoding serviceValidateAction"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot decode serviceValidateAction'", data.Function, errWriter)
 		}
 		return
 	}
