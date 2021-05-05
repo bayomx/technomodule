@@ -34,9 +34,15 @@ type ServiceProfile struct {
 	Action  string
 }
 
+// ServiceData struct
+type ServiceData struct {
+	Secret string
+}
+
 // variables
 const EnvType = "TYPE"
 const EnvDev = "DEV"
+const Secret = "SECRET"
 const HostPrefixVersion = "hostPrefixVersion"
 const LoginEmp = "loginEmp"
 const CheckSessionByToken = "checkSessionByToken"
@@ -45,6 +51,7 @@ const ServiceValidateAction = "serviceValidateAction"
 
 var Api APIData
 var TechnoIMGResolveData ResolveData
+var Service ServiceData
 
 // LogError writes log from function
 func LogError(text string, function string, err error) {
