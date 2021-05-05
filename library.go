@@ -43,6 +43,7 @@ type ServiceData struct {
 const EnvType = "TYPE"
 const EnvDev = "DEV"
 const Secret = "SECRET"
+const ServiceProfileHeader = "ServiceProfile"
 const HostPrefixVersion = "hostPrefixVersion"
 const LoginEmp = "loginEmp"
 const CheckSessionByToken = "checkSessionByToken"
@@ -126,6 +127,36 @@ func GetToken(request *http.Request) (token string) {
 	}
 
 	return tokenSplit[1]
+}
+
+// SetToken set token to request
+func SetToken(request *http.Request, token string) {
+
+	request.Header.Add(ServiceProfileHeader, token)
+}
+
+// GetServiceProfile gets ServiceProfile from request
+func GetServiceProfile(request *http.Request) (serviceProfile ServiceProfile) {
+
+	profileRaw := request.Header.Get(ServiceProfileHeader)
+	if profileRaw == "" {
+		return
+	}
+
+	profileSplit := strings.Split(profileRaw, " ")
+	if len(profileSplit) < 2 {
+		return
+	}
+
+	serviceProfile.Profile = profileSplit[0]
+	serviceProfile.Action = profileSplit[1]
+	return
+}
+
+// SetServiceProfile set service profile to request
+func SetServiceProfile(request *http.Request, serviceProfile ServiceProfile) {
+
+	request.Header.Add(ServiceProfileHeader, serviceProfile.Profile+" "+serviceProfile.Action)
 }
 
 // ValidateToken function
