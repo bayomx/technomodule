@@ -49,6 +49,7 @@ const LoginEmp = "loginEmp"
 const CheckSessionByToken = "checkSessionByToken"
 const ServiceCheckSessionByToken = "serviceCheckSessionByToken"
 const ServiceValidateAction = "serviceValidateAction"
+const ServiceAPI = "services/"
 
 var Api APIData
 var TechnoIMGResolveData ResolveData
@@ -190,7 +191,7 @@ func ValidateToken(data FuncData, resolve ResolveData, token string) (result boo
 func ValidateTokenService(data FuncData, resolve ResolveData, mySecret string, token string, profile ServiceProfile) (result bool, err error) {
 
 	// validate token
-	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + ServiceCheckSessionByToken + "/" + mySecret + "/" + token)
+	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + ServiceAPI + ServiceCheckSessionByToken + "/" + mySecret + "/" + token)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting checkSessionByToken"))
@@ -216,7 +217,7 @@ func ValidateTokenService(data FuncData, resolve ResolveData, mySecret string, t
 	}
 
 	// validate profile
-	validate, err = http.Get(resolve.Host + resolve.Prefix + resolve.Version + ServiceValidateAction + "/" + mySecret + "/" + profile.Profile + "/" + profile.Action)
+	validate, err = http.Get(resolve.Host + resolve.Prefix + resolve.Version + ServiceAPI + ServiceValidateAction + "/" + mySecret + "/" + profile.Profile + "/" + profile.Action)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting serviceValidateAction"))
