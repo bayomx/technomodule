@@ -44,6 +44,7 @@ type ServiceData struct {
 const EnvType = "TYPE"
 const EnvDev = "DEV"
 const Secret = "SECRET"
+const Project = "PROJECT"
 const ServiceProfileHeader = "ServiceProfile"
 const HostPrefixVersion = "hostPrefixVersion"
 const LoginEmp = "loginEmp"
