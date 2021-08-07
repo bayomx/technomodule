@@ -91,6 +91,33 @@ func GetResolveData(data FuncData) (result ResolveData) {
 	return
 }
 
+// GetResolveDataPK function
+func GetResolveDataPK(data FuncData, service string) (result ResolveData) {
+
+	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + service)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error getting host+prefix+version"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot get host+prefix+version'", data.Function, errWriter)
+		}
+		return
+	}
+
+	var decoder = json.NewDecoder(response.Body)
+	err = decoder.Decode(&result)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error decoding host+prefix+version"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot decode host+prefix+version'", data.Function, errWriter)
+		}
+		return
+	}
+
+	return
+}
+
 // GetResolveDataService function
 func GetResolveDataService(data FuncData, service string) (result ResolveData) {
 
@@ -168,6 +195,33 @@ func SetServiceProfile(request *http.Request, serviceProfile ServiceProfile) {
 func ValidateToken(data FuncData, resolve ResolveData, token string) (result bool) {
 
 	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + CheckSessionByToken + "/" + token)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error getting checkSessionByToken"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot get checkSessionByToken'", data.Function, errWriter)
+		}
+		return
+	}
+
+	var decoder = json.NewDecoder(validate.Body)
+	err = decoder.Decode(&result)
+	if err != nil {
+		data.Writer.WriteHeader(http.StatusInternalServerError)
+		_, errWriter := data.Writer.Write([]byte("Error decoding checkSessionByToken"))
+		if errWriter != nil {
+			LogError("Error writing result 'Cannot decode checkSessionByToken'", data.Function, errWriter)
+		}
+		return
+	}
+
+	return
+}
+
+// ValidatePKToken function
+func ValidatePKToken(data FuncData, resolve ResolveData, token string) (result bool) {
+
+	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + resolve.API + CheckSessionByToken + "/" + token)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting checkSessionByToken"))
