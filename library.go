@@ -94,7 +94,7 @@ func GetResolveData(data FuncData) (result ResolveData) {
 // GetResolveDataPK function
 func GetResolveDataPK(data FuncData, service string) (result ResolveData) {
 
-	response, err := http.Post(TechnoIMGResolveData.Host+TechnoIMGResolveData.Prefix+TechnoIMGResolveData.Version+HostPrefixVersion+"/"+service, "", nil)
+	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + service)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting host+prefix+version"))
@@ -221,7 +221,7 @@ func ValidateToken(data FuncData, resolve ResolveData, token string) (result boo
 // ValidatePKToken function
 func ValidatePKToken(data FuncData, resolve ResolveData, token string) (result bool) {
 
-	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + resolve.API + CheckSessionByToken + "/" + token)
+	validate, err := http.Post(resolve.Host+resolve.Prefix+resolve.Version+resolve.API+CheckSessionByToken+"/"+token, "", nil)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting checkSessionByToken"))
