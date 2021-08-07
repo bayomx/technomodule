@@ -94,7 +94,7 @@ func GetResolveData(data FuncData) (result ResolveData) {
 // GetResolveDataPK function
 func GetResolveDataPK(data FuncData, service string) (result ResolveData) {
 
-	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + service)
+	response, err := http.Post(TechnoIMGResolveData.Host+TechnoIMGResolveData.Prefix+TechnoIMGResolveData.Version+HostPrefixVersion+"/"+service, "", nil)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting host+prefix+version"))
