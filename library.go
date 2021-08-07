@@ -40,6 +40,11 @@ type ServiceData struct {
 	Secret string
 }
 
+// Valid struct
+type Valid struct {
+	Result bool `json:"result"`
+}
+
 // variables
 const EnvType = "TYPE"
 const EnvDev = "DEV"
@@ -232,7 +237,8 @@ func ValidatePKToken(data FuncData, resolve ResolveData, token string) (result b
 	}
 
 	var decoder = json.NewDecoder(validate.Body)
-	err = decoder.Decode(&result)
+	var response Valid
+	err = decoder.Decode(&response)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error decoding checkSessionByToken"))
@@ -241,6 +247,8 @@ func ValidatePKToken(data FuncData, resolve ResolveData, token string) (result b
 		}
 		return
 	}
+
+	result = response.Result
 
 	return
 }
