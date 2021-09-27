@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
+	"time"
 )
 
 // APIData struct
@@ -305,4 +307,23 @@ func ValidateTokenService(data FuncData, resolve ResolveData, mySecret string, t
 	}
 
 	return
+}
+
+// ConvertToDate converts to mongo date
+func ConvertToDate(date string, timeZone *time.Location) time.Time {
+	dateSplit := strings.Split(date, "/")
+	dateYear, errConv := strconv.Atoi(dateSplit[0])
+	if errConv != nil {
+		dateYear = 2020
+	}
+	dateMonth, errConv := strconv.Atoi(dateSplit[1])
+	if errConv != nil {
+		dateMonth = 1
+	}
+	dateDay, errConv := strconv.Atoi(dateSplit[2])
+	if errConv != nil {
+		dateDay = 1
+	}
+
+	return time.Date(dateYear, time.Month(dateMonth), dateDay, 0, 0, 0, 0, timeZone)
 }
