@@ -52,6 +52,7 @@ const EnvType = "TYPE"
 const EnvDev = "DEV"
 const Secret = "SECRET"
 const Project = "PROJECT"
+const Region = "REGION"
 const ServiceProfileHeader = "ServiceProfile"
 const HostPrefixVersion = "hostPrefixVersion"
 const LoginEmp = "loginEmp"
@@ -72,9 +73,9 @@ func LogError(text string, function string, err error) {
 }
 
 // GetResolveData function
-func GetResolveData(data FuncData) (result ResolveData) {
+func GetResolveData(data FuncData, region string) (result ResolveData) {
 
-	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + LoginEmp)
+	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + LoginEmp + "/" + region)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting host+prefix+version"))
@@ -99,9 +100,9 @@ func GetResolveData(data FuncData) (result ResolveData) {
 }
 
 // GetResolveDataPK function
-func GetResolveDataPK(data FuncData, service string) (result ResolveData) {
+func GetResolveDataPK(data FuncData, service string, region string) (result ResolveData) {
 
-	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + service)
+	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + service + "/" + region)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting host+prefix+version"))
@@ -126,9 +127,9 @@ func GetResolveDataPK(data FuncData, service string) (result ResolveData) {
 }
 
 // GetResolveDataService function
-func GetResolveDataService(data FuncData, service string) (result ResolveData) {
+func GetResolveDataService(data FuncData, service string, region string) (result ResolveData) {
 
-	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + service)
+	response, err := http.Get(TechnoIMGResolveData.Host + TechnoIMGResolveData.Prefix + TechnoIMGResolveData.Version + HostPrefixVersion + "/" + service + "/" + region)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting host+prefix+version"))
