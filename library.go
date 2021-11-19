@@ -202,7 +202,7 @@ func SetServiceProfile(request *http.Request, serviceProfile ServiceProfile) {
 // ValidateToken function
 func ValidateToken(data FuncData, resolve ResolveData, token string) (result bool) {
 
-	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + CheckSessionByToken + "/" + token)
+	validate, err := http.Get(resolve.Host + resolve.Prefix + resolve.Version + resolve.API + CheckSessionByToken + "/" + token)
 	if err != nil {
 		data.Writer.WriteHeader(http.StatusInternalServerError)
 		_, errWriter := data.Writer.Write([]byte("Error getting checkSessionByToken"))
