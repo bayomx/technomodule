@@ -60,6 +60,14 @@ const CheckSessionByToken = "checkSessionByToken"
 const ServiceCheckSessionByToken = "serviceCheckSessionByToken"
 const ServiceValidateAction = "serviceValidateAction"
 
+// activities type
+const check = "Check"
+const medical = "Medical"
+const recipe = "Recipe"
+const responsibility = "Responsibility"
+const social = "Social"
+const walk = "Walk"
+
 // services
 const TlServiceAccess = "tlserviceaccess"
 
