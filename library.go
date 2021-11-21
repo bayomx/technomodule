@@ -63,12 +63,18 @@ const GET = "GET"
 const POST = "POST"
 
 // activities type
-const check = "Check"
-const medical = "Medical"
-const recipe = "Recipe"
-const responsibility = "Responsibility"
-const social = "Social"
-const walk = "Walk"
+const Check = "Check"
+const Medical = "Medical"
+const Recipe = "Recipe"
+const Responsibility = "Responsibility"
+const Social = "Social"
+const Walk = "Walk"
+
+// log permissions
+const PetAdminCreateLog = "pet_admin Pet.CreateLog"
+const PetAdminUpdateLog = "pet_admin Pet.UpdateLog"
+const PetAdminGetLog = "pet_admin Pet.GetLog"
+const PetAdminDeleteLog = "pet_admin Pet.DeleteLog"
 
 // services
 const TlServiceAccess = "tlserviceaccess"
