@@ -59,6 +59,8 @@ const LoginEmp = "loginEmp"
 const CheckSessionByToken = "checkSessionByToken"
 const ServiceCheckSessionByToken = "serviceCheckSessionByToken"
 const ServiceValidateAction = "serviceValidateAction"
+const GET = "GET"
+const POST = "POST"
 
 // activities type
 const check = "Check"
@@ -74,6 +76,7 @@ const TlServiceAccess = "tlserviceaccess"
 var Api APIData
 var TechnoIMGResolveData ResolveData
 var Service ServiceData
+var region string
 
 // LogError writes log from function
 func LogError(text string, function string, err error) {
