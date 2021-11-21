@@ -52,7 +52,7 @@ const EnvType = "TYPE"
 const EnvDev = "DEV"
 const Secret = "SECRET"
 const Project = "PROJECT"
-const Region = "REGION"
+const RegionVar = "REGION"
 const ServiceProfileHeader = "ServiceProfile"
 const HostPrefixVersion = "hostPrefixVersion"
 const LoginEmp = "loginEmp"
@@ -76,7 +76,7 @@ const TlServiceAccess = "tlserviceaccess"
 var Api APIData
 var TechnoIMGResolveData ResolveData
 var Service ServiceData
-var region string
+var Region string
 
 // LogError writes log from function
 func LogError(text string, function string, err error) {
